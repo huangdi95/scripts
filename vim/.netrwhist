@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/lustre/S/huangdi/GandRL_for_NPS_query/exps/supervised_use_grammar/202101282304/Weights'
+let g:netrw_dirhist_2='/lustre/S/huangdi/GandRL_for_NPS'
+let g:netrw_dirhist_3='/lustre/S/huangdi/GandRL_for_NPS/nps'
