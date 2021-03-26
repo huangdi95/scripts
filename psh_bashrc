@@ -1,0 +1,270 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+
+
+#cuda10.1
+export PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+#export LD_LIBRARY_PATH=/home/guojiaming/var/nccl-repo-2.4.8-ga-cuda10.1/usr/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+#export CPLUS_INCLUDE_PATH=/home/guojiaming/var/nccl-repo-2.4.8-ga-cuda10.1/usr/include${CPLUS_INCLUDE_PATH:+:${CPLUS_INCLUDE_PATH}}
+#export C_INCLUDE_PATH=/home/guojiaming/var/nccl-repo-2.4.8-ga-cuda10.1/usr/include${C_INCLUDE_PATH:+:${C_INCLUDE_PATH}}
+alias m='make -j16'
+alias t4='ssh compute-t04'
+alias t5='ssh compute-t05'
+alias t6='ssh compute-t06'
+alias t7='ssh compute-t07'
+alias t8='ssh compute-t08'
+alias t9='ssh compute-t09'
+alias t10='ssh compute-t10'
+alias t11='ssh compute-t11'
+alias t12='ssh compute-t12'
+alias t13='ssh compute-t13'
+alias 0='ssh compute-v00'
+alias 1='ssh compute-v01'
+alias 2='ssh compute-v02'
+alias 3='ssh compute-v03'
+alias 4='ssh compute-v04'
+alias 5='ssh compute-v05'
+alias 6='ssh compute-v06'
+alias 7='ssh compute-v07'
+alias 9='ssh compute-v09'
+alias 10='ssh compute-v10'
+alias 11='ssh compute-v11'
+alias sm='source /tools/module_env.sh'
+alias lgit='module load git/2.17.1'
+alias lcmk='module load cmake/3.10.3'
+alias lus='cd /lustre/S/pengshaohui/dev/new_living'
+alias mpiexec='/lustre/S/guojiaming/build/openmpi/bin/mpiexec'
+alias vim='vim -O'
+alias ac="source activate"
+alias sb="sbatch"
+alias sc="scancel"
+alias sq="squeue"
+alias tf="tail -f"
+export MINERL_DATA_ROOT=/lustre/S/panyansong/data/
+
+
+#glog
+export JIHUANG_INCLUDE_GLOG=/lustre/S/guojiaming/build/glog/include
+export JIHUANG_LD_LIB_GLOG=/lustre/S/guojiaming/build/glog/lib/libglog.so
+export LIBRARY_PATH=/lustre/S/guojiaming/build/glog/lib${LIBRARY_PATH:+:${LIBRARY_PATH}}
+export LD_LIBRARY_PATH=/lustre/S/guojiaming/build/glog/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export CPLUS_INCLUDE_PATH=/lustre/S/guojiaming/build/glog/include${CPLUS_INCLUDE_PATH:+:${CPLUS_INCLUDE_PATH}}
+export C_INCLUDE_PATH=/lustre/S/guojiaming/build/glog/include${C_INCLUDE_PATH:+:${C_INCLUDE_PATH}}
+#gflag
+export JIHUANG_INCLUDE_GFLAG=/lustre/S/guojiaming/build/gflag/include
+export JIHUANG_LD_LIB_GFLAG=/lustre/S/guojiaming/build/gflag/lib/libgflags.so
+export LIBRARY_PATH=/lustre/S/guojiaming/build/gflag/lib${LIBRARY_PATH:+:${LIBRARY_PATH}}
+export LD_LIBRARY_PATH=/lustre/S/guojiaming/build/gflag/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export CPLUS_INCLUDE_PATH=/lustre/S/guojiaming/build/gflag/include${CPLUS_INCLUDE_PATH:+:${CPLUS_INCLUDE_PATH}}
+export C_INCLUDE_PATH=/lustre/S/guojiaming/build/gflag/include${C_INCLUDE_PATH:+:${C_INCLUDE_PATH}}
+#openmpi
+export LIBRARY_PATH=/lustre/S/guojiaming/build/openmpi/lib${LIBRARY_PATH:+:${LIBRARY_PATH}}
+export LD_LIBRARY_PATH=/lustre/S/guojiaming/build/openmpi/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export CPLUS_INCLUDE_PATH=/lustre/S/guojiaming/build/openmpi/include${CPLUS_INCLUDE_PATH:+:${CPLUS_INCLUDE_PATH}}
+export C_INCLUDE_PATH=/lustre/S/guojiaming/build/openmpi/include${C_INCLUDE_PATH:+:${C_INCLUDE_PATH}}
+#MPI_DIR=/lustre/S/guojiaming/build/openmpi
+#export LD_LIBRARY_PATH=$MPI_DIR/lib:$LD_LIBRARY_PATH
+export PATH="/lustre/S/guojiaming/build/openmpi/bin:$PATH"
+#ana3
+#export PATH="/home/S/pengshaohui/anaconda3/bin:=$PATH"
+export PATH="/lustre/S/guojiaming/anaconda3/bin:=$PATH"
+export JIHUANG_PYTHON_INCLUDE_DIRS=/lustre/S/guojiaming/anaconda3/envs/rl/include/python3.7m/
+export JIHUANG_PYTHON_LD_LIB_DIRS=/lustre/S/guojiaming/anaconda3/envs/rl/lib/libpython3.7m.so
+export JIHUANG_BOOST_INCLUDE_DIRS=/lustre/S/guojiaming/anaconda3/envs/build/include/
+export JIHUANG_BOOST_LD_LIB_DIRS=/lustre/S/guojiaming/anaconda3/envs/build/lib/libboost_python36.so
+
+#protobuf
+export JIHUANG_INCLUDE_PROTOBUF=/lustre/S/guojiaming/build/protobuf/include
+export JIHUANG_LD_LIB_PROTOBUF=/lustre/S/guojiaming/build/protobuf/lib/libprotobuf.so
+export PATH="/lustre/S/guojiaming/build/protobuf/bin/:$PATH"
+export PKG_CONFIG_PATH=/lustre/S/guojiaming/build/protobuf/lib/pkgconfig/
+#gcc7.4
+export PATH="/lustre/S/guojiaming/build/gcc_compile/bin:$PATH"
+export C_INCLUDE_PATH=$C_INCLUDE_PATH:/lustre/S/guojiaming/build/gcc_compile/include
+export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/lustre/S/guojiaming/build/gcc_compile/include
+
+export LD_LIBRARY_PATH=/lustre/S/guojiaming/build/gcc_compile/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export LIBRARY_PATH=$LIBRARY_PATH:/lustre/S/guojiaming/build/gcc_compile/lib
+
+export LD_LIBRARY_PATH=/lustre/S/guojiaming/build/mpfr-4.1.0/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+export JIHUANG_CC=/lustre/S/guojiaming/build/gcc_compile/bin/gcc
+export JIHUANG_CXX=/lustre/S/guojiaming/build/gcc_compile/bin/g++
+export CC=/lustre/S/guojiaming/build/gcc_compile/bin/gcc
+export CXX=/lustre/S/guojiaming/build/gcc_compile/bin/g++
+
+
+#openGL
+export SOFTWARE_HOME=/lustre/S/yiqi/softwares
+export PATH=$SOFTWARE_HOME/usr/bin:$SOFTWARE_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SOFTWARE_HOME/lib
+export MANPATH=$SOFTWARE_HOME/share/man
+
+export C_INCLUDE_PATH=$CPATH:/lustre/S/yiqi/softwares/usr/include:$C_INCLUDE_PATH
+export CPLUS_INCLUDE_PATH=$CPATH:/lustre/S/yiqi/softwares/usr/include:$CPLUS_INCLUDE_PATH
+export CPATH=$CPATH:$SOFTWARE_HOME/usr/include
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/lustre/S/yiqi/softwares/usr/lib:/lustre/S/yiqi/softwares/usr/lib64
+export LIBRARY_PATH=$LIBRARY_PATH:/lustre/S/yiqi/softwares/usr/lib:/lustre/S/yiqi/softwares/usr/lib64
+export CMAKE_LIBRARY_PATH="/lustre/S/yiqi/softwares/usr/lib:/lustre/S/yiqi/softwares/usr/lib64:$LIBRARY_PATH:$CMAKE_LIBRARY_PATH"
+export CMAKE_INCLUDE_PATH="/lustre/S/yiqi/softwares/usr/include:$CPATH:$CMAKE_INCLUDE_PATH"
+export LDFLAGS="-L$SOFTWARE_HOME/usr/lib -L$SOFTWARE_HOME/usr/lib64"
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/S/pengshaohui/.mujoco/mujoco200/bin
+#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;35;01m\]\u\[\033[00;00;01m\]@\[\033[01;35;01m\]\h\[\033[00;31;01m\]:\[\033[00;00;01m\]\w \[\033[01;32;01m\]\$ \[\033[01;01;01m\]'
+PS1="\[\e[37;40m\][\[\e[32;40m\]\u\[\e[37;40m\]@\h\[\e[35;40m\]\w\[\e[0m\]]\\$ "
+
+
+# for rm {{
+# mkdir ~/.delete, when rm somethings ,mv them to here
+if [ ! -d $HOME/.delete ]
+then
+    mkdir $HOME/.delete
+fi
+unDoRm() {
+  mv -i $HOME/.delete/$@ ./
+}
+toBackup()
+{
+    for thing in $@
+    do
+        echo $thing | grep '^-' > /dev/null
+        if [ ! $? = 0 ]
+        then
+            mv $thing $HOME/.delete
+            echo mv $thing to ~/.delete, you can backup them
+        fi
+    done
+
+}
+cleanDelete()
+{
+    echo 'clear backup files?[y/N]'
+    read confirm
+    [ $confirm = 'y' ] || [ $confirm = 'Y' ]  && /usr/bin/rm -rf $HOME/.delete/*
+}
+# rm somethings
+alias rm=toBackup
+# see what in~/.delete now
+alias lsdel='ls $HOME/.delete'
+# undo
+alias unrm=unDoRm
+# clean ~/.delete
+alias cleandel=cleanDelete
+# }}

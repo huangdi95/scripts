@@ -7,5 +7,5 @@
 result=`sbatch $1`
 echo $result
 arr=($result)
-sleep 1.5s
+sleep 1.8s
 tail -f "ret-${arr[-1]}.err"
