@@ -39,7 +39,6 @@ export PATH=$HOME/anaconda3/bin:$PATH
 
 
 
-
 #export PATH="/lustre/S/guojiaming/build/gcc_compile/bin:$PATH"
 #export C_INCLUDE_PATH=$C_INCLUDE_PATH:/lustre/S/guojiaming/build/gcc_compile/include
 #export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/lustre/S/guojiaming/build/gcc_compile/include
@@ -53,6 +52,8 @@ export PATH=$HOME/anaconda3/bin:$PATH
 #export CXX=/lustre/S/guojiaming/build/gcc_compile/bin/g++
 #
 ##export LD_LIBRARY_PATH=/home/guojiaming/.mujoco/mjpro150/bin${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+
 
 ### openmpi
 export PATH="/home/huangdi/openmpi/bin:$PATH"
@@ -85,6 +86,8 @@ alias v04='ssh gpu-v04'
 alias v05='ssh gpu-v05'
 alias v06='ssh gpu-v06'
 alias v07='ssh gpu-v07'
+alias v08='ssh gpu-v08'
+alias v09='ssh gpu-v09'
 alias v10='ssh gpu-v10'
 alias v11='ssh gpu-v11'
 alias v12='ssh gpu-v12'
@@ -162,6 +165,8 @@ alias lsdel='ls $HOME/.delete'
 alias unrm=unDoRm
 # clean ~/.delete
 alias cleandel=cleanDelete
+# cp
+alias cp='cp -i'
 # }}
 
 # >>> conda initialize >>>
