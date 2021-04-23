@@ -10,8 +10,8 @@ output = process.read()
 process.close()
 flag = False
 
-mat = "{:10}\t{:10}\t{:1}"
-print(mat.format('partition', 'name', 'remain'))
+mat = "{:10}\t{:10}\t{:10}\t{:1}"
+print(mat.format('partition', 'features', 'name', 'remain'))
 for item in output.split():
     if 'drain' in item or 'down' in item or 'drng' in item:
         flag = True
@@ -26,8 +26,11 @@ for item in output.split():
     elif 'IDX:' in item:
         used = int(item.split(':')[2][0])
         remain = total - used
-        if remain == 0 or flag:
+        if remain == 0:
+            flag = True
+    elif 'IB,' in item:
+        features = item.split(',')[3]
+        if flag:
             flag = False
             continue
-        mat = "{:10}\t{:10}\t{:1}"
-        print(mat.format(partition, name, remain))
+        print(mat.format(partition, features, name, remain))
