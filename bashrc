@@ -77,6 +77,7 @@ alias sm='slurm-gpu-queue --me'
 alias newest='ls -lt ./ | grep "ret*" | head -n 1 |awk '\''{print $9}'\'' | xargs tail -f'
 alias valid='python ~/scripts/whohasgpu.py'
 alias sbat='~/scripts/sbatch.sh'
+alias send='python ~/scripts/taskfinished.py'
 
 alias v00='ssh gpu-v00'
 alias v01='ssh gpu-v01'
