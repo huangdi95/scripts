@@ -7,5 +7,10 @@
 result=`sbatch $1`
 echo $result
 arr=($result)
-sleep 1.8s
-tail -f "ret-${arr[-1]}.err"
+file="ret-${arr[-1]}.err"
+sleep 1.0s
+while [ ! -f "$file" ]
+do
+    sleep 0.5s
+done
+tail -f $file
