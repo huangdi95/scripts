@@ -5,7 +5,8 @@
 #########################################################################
 #!/lustre/S/huangdi/anaconda3/bin/python
 import os
-process = os.popen('squeue -O JobID,Partition,NodeList,tres-per-node,EndTime')
+import sys
+process = os.popen('squeue -O JobID,Partition,NodeList,tres-per-node,EndTime,Account')
 output = process.read()
 process.close()
 
@@ -14,6 +15,7 @@ PARTITION   = 1
 NODE        = 2
 TRES_PER_N  = 3
 ENDTIME     = 4
+USER        = 5
 
 mat = "{:8}\t{:8}\t{:8}\t{:1}"
 
@@ -26,14 +28,17 @@ max_gpu = {
     'gpu-long'    : 16,
     'gpu-longlong': 8}
 for item in output.split('\n')[1:]:
-    if len(item.split()) < 5:
+    if len(item.split()) < 6:
         continue
     partition = item.split()[PARTITION]
     node      = item.split()[NODE]
     t_p_n     = item.split()[TRES_PER_N]
     end_time  = item.split()[ENDTIME]
+    user      = item.split()[USER]
     if int(t_p_n.split(':')[-1]) < 4:
         continue
+    if sys.argv[1] == 'me' and user != 'huangdi':
+        continue 
     end_list.append((partition, node, t_p_n, end_time))
 end_list.sort(key = lambda x: x[3], reverse=True)
 

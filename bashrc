@@ -59,8 +59,8 @@ export PATH=$HOME/anaconda3/bin:$PATH
 export PATH="/home/huangdi/openmpi/bin:$PATH"
 export LD_LIBRARY_PATH="/home/huangdi/openmpi/lib/:$LD_LIBRARY_PATH"
 
-module load cuda-cudnn/10.1-7.6.5
-#module load cuda-cudnn/10.0-7.4.2
+module unload cuda-cudnn/10.1-7.6.5
+module load cuda-cudnn/11.0-8.0.4
 module load gcc/7.5.0
 module load git/2.17.1 
 module load slurm-tools
@@ -72,12 +72,13 @@ alias cuda9='export PATH=$HOME/cuda-9.0-7.0.5/bin:$PATH;export LD_LIBRARY_PATH=$
 
 alias sq='slurm-gpu-queue'
 alias si='slurm-gpu-info'
-alias sb='sbatch'
 alias sm='slurm-gpu-queue --me'
 alias newest='ls -lt ./ | grep "ret*" | head -n 1 |awk '\''{print $9}'\'' | xargs tail -f'
 alias valid='python ~/scripts/whohasgpu.py'
 alias sbat='~/scripts/sbatch.sh'
 alias send='python ~/scripts/taskfinished.py'
+alias remain='python ~/scripts/remain.py'
+alias swhenm='python ~/scripts/end_time.py me'
 
 alias v00='ssh gpu-v00'
 alias v01='ssh gpu-v01'
@@ -184,6 +185,8 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+conda activate q_train
  
 # .bashrc
 if [ "$TERM" == "xterm" ]; then
