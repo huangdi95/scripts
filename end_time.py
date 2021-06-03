@@ -15,7 +15,7 @@ NODE        = 2
 TRES_PER_N  = 3
 ENDTIME     = 4
 
-mat = "{:10}\t{:1}\t{:1}\t{:1}"
+mat = "{:8}\t{:8}\t{:8}\t{:1}"
 
 end_list = []
 max_gpu = {
