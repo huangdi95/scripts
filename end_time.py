@@ -35,6 +35,8 @@ for item in output.split('\n')[1:]:
     t_p_n     = item.split()[TRES_PER_N]
     end_time  = item.split()[ENDTIME]
     user      = item.split()[USER]
+    if t_p_n.split(':')[-1] == 'N/A':
+        continue
     if int(t_p_n.split(':')[-1]) < 4:
         continue
     if sys.argv[1] == 'me' and user != 'huangdi':

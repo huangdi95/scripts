@@ -21,10 +21,10 @@ for item in output.split():
         partition = 'nv-gpu'
     elif 'compute-' in item or 'gpu-' in item:
         name = item
-    elif 'S:0' in item:
+    elif 'gpu:' in item and 'IDX:' not in item:
         total = int(item.split(':')[1][0])
     elif 'IDX:' in item:
-        used = int(item.split(':')[2][0])
+        used = int(item.split(':')[2][0].split('(')[0])
         remain = total - used
         if remain == 0:
             flag = True

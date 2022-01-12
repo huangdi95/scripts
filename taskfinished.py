@@ -14,13 +14,16 @@ USER        = 1
 PARTITION   = 2
 NAME        = 3
 STATE       = 4
-TIME        = 5 
-QOS         = 6
-NODE        = 7
-TASK        = 8
-CPUS        = 9
-TRES_PER_N  = 10
-NODELIST    = 11
+TIME        = 5
+TIME_LIMIT  = 6
+QOS         = 7
+FEATURES    = 8
+NODE        = 9
+TASK        = 10
+CPUS        = 11
+TRES_PER_N  = 12
+NODELIST    = 13
+REASON      = 14
 
 mat = "{:10}\t{:10}\t{:10}\t{:1}"
 

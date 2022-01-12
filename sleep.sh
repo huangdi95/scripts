@@ -1,16 +1,8 @@
 #########################################################################
 # Author: Huang Di
 # Mail: hd232508@163.com
-# Created Time: Fri 26 Feb 2021 10:32:41 AM CST
+# Created Time: Thu 12 Aug 2021 10:22:37 PM CST
 #########################################################################
 #!/bin/bash
-result=`sbatch $1 $2`
-echo $result
-arr=($result)
-file="./rets/ret-${arr[-1]}.err"
-sleep 1.0s
-while [ ! -f "$file" ]
-do
-    sleep 0.5s
-done
-tail -f $file
+sleep 10h
+sbatch ~/sleep.slurm

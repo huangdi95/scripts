@@ -5,7 +5,7 @@
 #########################################################################
 #!/lustre/S/huangdi/anaconda3/bin/python
 import os
-process = os.popen('slurm-gpu-queue --me')
+process = os.popen('slurm-gpu-queue')
 output = process.read()
 process.close()
 
@@ -28,22 +28,21 @@ REASON      = 14
 
 mat = "{:10}\t{:1}"
 
-max_gpu = {
-    'gpu-trial'   : 32, 
-    'gpu-debug'   : 32, 
-    'gpu-short'   : 32, 
-    'gpu-normal'  : 32, 
-    'gpu-long'    : 16,
-    'gpu-longlong': 8}
+used_gpu = {}
 for item in output.split('\n')[1:]:
     if len(item.split()) < 10:
         continue
-    qos        = item.split()[QOS]
-    if qos == 'gpu-longlo':
-        qos = 'gpu-longlong'
+    user = item.split()[USER]
+    node = item.split()[NODE]
+    qos = item.split()[QOS]
     tres_per_n = item.split()[TRES_PER_N]
-    max_gpu[qos] -= int(tres_per_n.split(':')[-1])
+    if user not in used_gpu:
+        used_gpu.update({user: 0})
+    used_gpu[user] += int(tres_per_n.split(':')[-1]) * int(node)
 
-print(mat.format('QOS', 'remain'))
-for qos in max_gpu:
-    print(mat.format(qos, max_gpu[qos]))
+sorted_dict = sorted(used_gpu.items(),key=lambda x:x[1],reverse=True)
+total = 0
+for k, v in sorted_dict:
+    print(mat.format(k, v))
+    total += v
+print(mat.format('total', total))
