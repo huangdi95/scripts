@@ -16,10 +16,10 @@ for item in output.split():
     if 'drain' in item or 'down' in item or 'drng' in item:
         flag = True
     if 'nv-gpu-hw' in item:
-        partition = 'nv-gpu-hw'
+        partition = item
     elif 'nv-gpu' in item:
-        partition = 'nv-gpu'
-    elif 'compute-' in item or 'gpu-' in item:
+        partition = item
+    elif 'compute-' in item or 'gpu-' in item or 'r8' in item:
         name = item
     elif 'gpu:' in item and 'IDX:' not in item:
         total = int(item.split(':')[1][0])
@@ -29,7 +29,7 @@ for item in output.split():
         if remain == 0:
             flag = True
     elif 'IB,' in item:
-        features = item.split(',')[3]
+        features = ','.join(item.split(',')[3:5])
         if flag:
             flag = False
             continue

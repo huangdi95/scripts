@@ -1,6 +1,6 @@
 seed = 100
 
-DEBUG = False 
+DEBUG = False
 dump_dataset = True
 dataset = 'E1'
 PE = False
@@ -13,40 +13,98 @@ load_from_checkpoint = None
 #load_from_checkpoint = 'trained_models/E1/GPS-202109161735/model-latest' 
 #dump_dataset = '202109161734'
 
+model = 'transformer'
+intersection = 'mean'
+#losses = ['infonce', 'kl']
+losses = ['infonce']
+num_examples = 6
+
+activation = 'relu'
+
+class modular():
+    share = True
+    ns = 10
+    hid_dim = 256
+
+    n_layers = 4
+    module_heads = 4
+    module_pf_dim = hid_dim * 2
+    module_dropout = 0.
+
+    select_inp_heads = 4
+    select_inp_dropout = 0.
+
+    communication_heads = 4
+    communication_dropout = 0.
+
+    enc_layers = 8
+    enc_hidden = hid_dim 
+    enc_heads = 4
+    enc_pf_dim = module_pf_dim 
+    enc_dropout = 0.
+
+    encode_method = 'mean'
+
+class ipirm():
+    maximize_iter = 1
+    irm_temp = 0.5
+
+    irm_weight_maxim = 0.5
+    constrain = True 
+    constrain_relax = True
+    penalty_weight = 0.2 
+    random_init = True
+
+    env_num = 2
+    keep_cont = True
+    increasing_weight = False
+    penalty_iters = 0
+    our_mode = 'w'
+    nonorm = False
+    irm_mode = 'v1'
+
 class vae():
-    latent_dim = 32
-    beta_anneal_epoch = None 
+    latent_dim = 1024
+    #beta_anneal_epoch = 15
+    beta = 1.0
+
+    dim_target_kl = 1.0
+    ratio_increase = 0.25
+    ratio_zero = 0.5
 
 
 class transformer():
-    use = True
-    self_att_only = False 
-    vae = False 
+    self_att_only = True
+    vae = True
 
-    enc_layers = 4
-    enc_hidden = 512
-    enc_heads = 8
-    enc_pf_dim = 1024
+    enc_layers = 8
+    enc_hidden = 768
+    enc_heads = 16
+    enc_pf_dim = enc_hidden * 4
 
     dec_layers = enc_layers
     dec_hidden = enc_hidden 
     dec_heads = enc_heads
     dec_pf_dim = enc_pf_dim
 
-    dropout = 0.1
+    dropout = 0.
 
     # useful when vae == True
-    encode_method = 'first'
-    past_emb = True 
+    encode_method = 'mean'
+    past_emb = True
 
 
 ################# Query #####################
 diff_embedding = True
 hard_softmax = True 
 
+temperature = 0.2
 lr_scheduler_step_size = 100
 gamma = 0.1
 learn_rate = 0.0001
+weight_decay = 0.
+adam_eps = 1e-8
+warmup_steps = 0 
 ######### MI3 ########
 dist_dim = 128 # == dense_output_size/2
 ns_gamma = 1
@@ -79,8 +137,8 @@ lambda_program = 0.001
 
 
 # General training
-num_epochs = 1000
-patience = 20
+num_epochs = 400
+patience = 200
 #model_output_path = 'trained_models/E1/PE_model' #'trained_models/E1/GPS_model/'
 if PE:
     model_output_path = 'trained_models/' + dataset + '/PE-'
@@ -106,7 +164,9 @@ if PE:
 else:
     train_path = 'data/data/'+dataset+'/train_dataset_gps'
     val_path = 'data/data/'+dataset+'/val_dataset_gps'
-batch_size = int(32*2 / 4) 
+    #train_path = 'data/data/'+'tmp4'+'/train_dataset_gps'
+    #val_path = 'data/data/'+'tmp4'+'/val_dataset_gps'
+batch_size = int(64)
 val_iterator_size = 32
 
 #    train_path = val_path
@@ -150,20 +210,20 @@ dense_growth_size = 56
 
 
 ############ query ps #############
-if query_path is not None:
-    print('Training with Queried Data!')
-    train_path = 'trained_models/' + dataset + '/' + query_path + '/train_gps'
-    val_path = 'trained_models/' + dataset + '/' + query_path + '/val_gps'
-    if dataset == 'E2' and PE:
-        batch_size = 256 
-    elif (dataset == 'E1' and PE) or (dataset == 'E2' and not PE):
-        batch_size = int(100 / 4)
-    elif dataset == 'E1' and not PE:
-        batch_size = int(32 / 4)
-    dense_output_size = 256
-    learn_rate = 0.001
-    lr_scheduler_step_size = 8
-    gamma = 0.1
+#if query_path is not None:
+#    print('Training with Queried Data!')
+#    train_path = 'trained_models/' + dataset + '/' + query_path + '/train_gps'
+#    val_path = 'trained_models/' + dataset + '/' + query_path + '/val_gps'
+#    if dataset == 'E2' and PE:
+#        batch_size = 256 
+#    elif (dataset == 'E1' and PE) or (dataset == 'E2' and not PE):
+#        batch_size = int(100 / 4)
+#    elif dataset == 'E1' and not PE:
+#        batch_size = int(32 / 4)
+#    dense_output_size = 256
+#    learn_rate = 0.001
+#    lr_scheduler_step_size = 8
+#    gamma = 0.1
 ###################################
 ############## debug ###############
 if DEBUG:
